@@ -7,6 +7,7 @@ but the resulting model model.joblib will be applied to the holdout data.
 It is important to document your training steps here, including seed, 
 number of folds, model, et cetera
 """
+from xgboost import XGBClassifier
 
 def train_save_model(cleaned_df, outcome_df):
     """
@@ -27,10 +28,26 @@ def train_save_model(cleaned_df, outcome_df):
     model_df = model_df[~model_df['new_child'].isna()]  
     
     # Logistic regression model
-    model = LogisticRegression()
+    # model = LogisticRegression()
+
+    from xgboost import XGBClassifier
+
+    # Best parameters obtained from grid search
+    best_params = {
+        'learning_rate': 0.3,
+        'max_depth': 7,
+        'min_child_weight': 5,
+        'subsample': 0.9,
+        'n_estimators': 100
+    }
+
+    model = XGBClassifier(**best_params, random_state=1)
 
     # Fit the model
-    model.fit(model_df[['age']], model_df['new_child'])
+    # model.fit(model_df[['age']], model_df['new_child'])
+
+    # Train the model with the best parameters
+    model.fit(X, y)
 
     # Save the model
     joblib.dump(model, "model.joblib")
