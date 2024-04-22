@@ -47,7 +47,7 @@ def train_save_model(cleaned_df, outcome_df):
     # model.fit(model_df[['age']], model_df['new_child'])
 
     # Train the model with the best parameters
-    model.fit(X, y)
+    model.fit(cleaned_df, model_df['new_child'])
 
     # Save the model
     joblib.dump(model, "model.joblib")
