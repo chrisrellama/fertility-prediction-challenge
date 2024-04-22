@@ -1,4 +1,4 @@
-7"""
+"""
 This is an example script to generate the outcome variable given the input dataset.
 
 This script should be modified to prepare your own submission that predicts 
