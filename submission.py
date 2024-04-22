@@ -1,4 +1,4 @@
-"""
+7"""
 This is an example script to generate the outcome variable given the input dataset.
 
 This script should be modified to prepare your own submission that predicts 
@@ -101,7 +101,7 @@ def clean_df(df, background_df=None):
     # Keeping data with variables selected
     # df = df[keepcols]
 
-    df.drop('nomem_encr', axis=1, inplace=True)
+   # df.drop('nomem_encr', axis=1, inplace=True)
 
     # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
     # df = df[columns_to_keep]
