@@ -41,17 +41,17 @@ def clean_df(df, background_df=None):
     # df["age"] = 2024 - df["birthyear_bg"]
     df = df.copy()
 
-    # file_path = "low_importance_features.txt"
+    file_path = "low_importance_features.txt"
 
     # # Initialize an empty list to store the feature names
-    # loaded_feature_names = []
+    loaded_feature_names = []
 
     # # Open the file in read mode
-    # with open(file_path, "r") as file:
+    with open(file_path, "r") as file:
     #     # Read each line of the file
-    #     for line in file:
-    #         # Remove trailing newline characters and append the feature name to the list
-    #         loaded_feature_names.append(line.strip())
+        for line in file:
+            # Remove trailing newline characters and append the feature name to the list
+            loaded_feature_names.append(line.strip())
 
     # df.drop('nomem_encr', axis=1, inplace=True)
 
@@ -103,8 +103,8 @@ def clean_df(df, background_df=None):
 
     df.drop('nomem_encr', axis=1, inplace=True)
 
-    # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
-    # df = df[columns_to_keep]
+    columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
+    df = df[columns_to_keep]
 
     return df
 
