@@ -57,24 +57,24 @@ def clean_df(df, background_df=None):
     # df["age"] = df["age"].fillna(df["age"].mean())
 
     # Columns to include (modify as needed)
-    fixed_cols = ['birthyear_bg', 'gender_bg', 'migration_background_bg']
+    # fixed_cols = ['birthyear_bg', 'gender_bg', 'migration_background_bg']
 
-    years = ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
+    # years = ['2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020']
 
-    hh_vars = ['partner', 'woonvorm', 'burgstat', 'woning', 'sted', 'brutohh_f', 'nettohh_f']
-    indiv_vars = ['belbezig', 'brutoink', 'nettoink', 'oplzon', 'oplmet', 'oplcat', 'brutoink_f', 'netinc', 'nettoink_f']
+    # hh_vars = ['partner', 'woonvorm', 'burgstat', 'woning', 'sted', 'brutohh_f', 'nettohh_f']
+    # indiv_vars = ['belbezig', 'brutoink', 'nettoink', 'oplzon', 'oplmet', 'oplcat', 'brutoink_f', 'netinc', 'nettoink_f']
 
-    all_vars = hh_vars + indiv_vars
+    # all_vars = hh_vars + indiv_vars
 
     # # Handle missing values in "partner" columns (check data types if uncertain)
-    for col in df.columns:
-        if 'partner' in col:
-            if pd.api.types.is_numeric_dtype(df[col]):
-                # Use df.loc to avoid chained assignment
-                df.loc[:, col].fillna(0, inplace=True)  # Impute numerical "partner" features with 0
-            else:
-                # Use df.loc to avoid chained assignment
-                df.loc[:, col] = df[col].fillna('Unknown')
+    # for col in df.columns:
+    #     if 'partner' in col:
+    #         if pd.api.types.is_numeric_dtype(df[col]):
+    #             # Use df.loc to avoid chained assignment
+    #             df.loc[:, col].fillna(0, inplace=True)  # Impute numerical "partner" features with 0
+    #         else:
+    #             # Use df.loc to avoid chained assignment
+    #             df.loc[:, col] = df[col].fillna('Unknown')
 
 
     # Impute missing values (consider alternatives based on data and model)
@@ -84,7 +84,10 @@ def clean_df(df, background_df=None):
     for col in df.select_dtypes(include=['object']).columns:
         df[col].fillna(df[col].mode()[0], inplace=True)  # Impute categorical features with mode
 
-    cols_to_keep = fixed_cols + [var + '_' + year for var in all_vars for year in years]
+    # cols_to_keep = fixed_cols + [var + '_' + year for var in all_vars for year in years]
+
+    cols_to_keep = []
+    
     for col in df.select_dtypes(include=['float64', 'int64']).columns:
         cols_to_keep.append(col)  # Add all float and int columns
 
