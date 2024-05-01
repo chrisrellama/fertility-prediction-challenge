@@ -44,12 +44,12 @@ def clean_df(df, background_df=None):
     file_path = "low_importance_features.txt"
 
     # Initialize an empty list to store the feature names
-    loaded_feature_names = []
+    # loaded_feature_names = []
 
-    # Open the file in read mode
-    with open(file_path, "r") as file:
-        for line in file:
-            loaded_feature_names.append(line.strip())
+    # # Open the file in read mode
+    # with open(file_path, "r") as file:
+    #     for line in file:
+    #         loaded_feature_names.append(line.strip())
 
     # df.drop('nomem_encr', axis=1, inplace=True)
 
@@ -102,8 +102,8 @@ def clean_df(df, background_df=None):
 
     df.drop('nomem_encr', axis=1, inplace=True)
 
-    columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
-    df = df[columns_to_keep]
+    # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
+    # df = df[columns_to_keep]
 
     # df = df[cols_to_keep]
 
