@@ -48,10 +48,10 @@ def train_save_model(cleaned_df, outcome_df):
 
     X = model_df.drop(columns=['new_child'], axis=1)
 
-    y = model_df['new_child']
+    # y = model_df['new_child']
 
     # Train the model with the best parameters
-    model.fit(X, y)
+    model.fit(X, model_df['new_child'])
 
     # Save the model
     joblib.dump(model, "model.joblib")
