@@ -78,11 +78,11 @@ def clean_df(df, background_df=None):
 
 
     # Impute missing values (consider alternatives based on data and model)
-    # for col in df.select_dtypes(include=['float64', 'int64']).columns:
-        # df[col].fillna(df[col].mean(), inplace=True)  # Impute numerical features with mean
+    for col in df.select_dtypes(include=['float64', 'int64']).columns:
+        df[col].fillna(df[col].mean(), inplace=True)  # Impute numerical features with mean
 
-    # for col in df.select_dtypes(include=['object']).columns:
-        # df[col].fillna(df[col].mode()[0], inplace=True)  # Impute categorical features with mode
+    for col in df.select_dtypes(include=['object']).columns:
+        df[col].fillna(df[col].mode()[0], inplace=True)  # Impute categorical features with mode
 
     # cols_to_keep = fixed_cols + [var + '_' + year for var in all_vars for year in years]
 
