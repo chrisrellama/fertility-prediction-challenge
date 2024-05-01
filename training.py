@@ -46,7 +46,7 @@ def train_save_model(cleaned_df, outcome_df):
     # Fit the model
     # model.fit(model_df[['age']], model_df['new_child'])
 
-    X = model_df.drop(columns=['new_child'])
+    X = model_df.drop(columns=['new_child'], axis=1)
 
     y = model_df['new_child']
 
