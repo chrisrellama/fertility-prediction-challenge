@@ -39,7 +39,7 @@ def clean_df(df, background_df=None):
     ## This script contains a bare minimum working example
     # Create new variable with age
     # df["age"] = 2024 - df["birthyear_bg"]
-    df = df.copy()
+    # df = df.copy()
 
     # file_path = "low_importance_features.txt"
 
@@ -86,10 +86,10 @@ def clean_df(df, background_df=None):
 
     # cols_to_keep = fixed_cols + [var + '_' + year for var in all_vars for year in years]
 
-    cols_to_keep = []
+    # cols_to_keep = []
     
-    for col in df.select_dtypes(include=['float64', 'int64']).columns:
-        cols_to_keep.append(col)  # Add all float and int columns
+    # for col in df.select_dtypes(include=['float64', 'int64']).columns:
+        # cols_to_keep.append(col)  # Add all float and int columns
 
     # df.drop(df.columns[~df.columns.isin(cols_to_keep)], axis=1, inplace=True)
 
@@ -107,7 +107,7 @@ def clean_df(df, background_df=None):
     # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
     # df = df[columns_to_keep]
 
-    df = df[cols_to_keep]
+    # df = df[cols_to_keep]
 
     return df
 
