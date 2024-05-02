@@ -1,7 +1,1 @@
 {"dockerfile": "python.Dockerfile"}
-
-{
-  "file_paths": {
-    "index": "index.txt"
-  }
-}
