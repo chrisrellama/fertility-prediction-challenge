@@ -21,6 +21,7 @@ import pandas as pd
 import joblib
 import pandas as pd
 from sklearn.model_selection import train_test_split
+import json
 
 
 def clean_df(df, background_df=None):
@@ -41,7 +42,13 @@ def clean_df(df, background_df=None):
     # df["age"] = 2024 - df["birthyear_bg"]
     df = df.copy()
 
-    file_path = "index.txt"
+    with open('settings.json') as f:
+        settings = json.load(f)
+
+    # Use file paths from settings
+    file_path = settings['file_paths']['index']
+
+    # file_path = "index.txt"
 
     # Initialize an empty list to store the feature names
     loaded_feature_names = []
