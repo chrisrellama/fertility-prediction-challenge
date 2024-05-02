@@ -142,7 +142,10 @@ def predict_outcomes(df, background_df=None, model_path="model.joblib"):
     df = clean_df(df, background_df)
 
     # Exclude the variable nomem_encr if this variable is NOT in your model
-    vars_without_id = df.columns[df.columns != 'nomem_encr']
+    vars_in_model = model.feature_importances_.shape[0]
+    vars_without_id = df.columns[df.columns != 'nomem_encr'][:vars_in_model]
+    
+    # vars_without_id = df.columns[df.columns != 'nomem_encr']
 
     # Generate predictions from model, should be 0 (no child) or 1 (had child)
     predictions = model.predict(df[vars_without_id])
