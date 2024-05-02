@@ -8,6 +8,7 @@ It is important to document your training steps here, including seed,
 number of folds, model, et cetera
 """
 from xgboost import XGBClassifier
+# from sklearn.ensemble import RandomForestClassifier
 
 def train_save_model(cleaned_df, outcome_df):
     """
@@ -19,7 +20,7 @@ def train_save_model(cleaned_df, outcome_df):
     """
     
     ## This script contains a bare minimum working example
-    random.seed(1) # not useful here because logistic regression deterministic
+    # not useful here because logistic regression deterministic
     
     # Combine cleaned_df and outcome_df
     model_df = pd.merge(cleaned_df, outcome_df, on="nomem_encr")
@@ -28,7 +29,6 @@ def train_save_model(cleaned_df, outcome_df):
     model_df = model_df[~model_df['new_child'].isna()]  
     
     # Logistic regression model
-    # model = LogisticRegression()
 
     from xgboost import XGBClassifier
 
@@ -43,11 +43,17 @@ def train_save_model(cleaned_df, outcome_df):
 
     model = XGBClassifier(**best_params, random_state=1)
 
+    # model = RandomForestClassifier(random_state=1)
+
     # Fit the model
     # model.fit(model_df[['age']], model_df['new_child'])
 
+    X = model_df.drop(columns=['new_child'], axis=1)
+
+    y = model_df['new_child']
+
     # Train the model with the best parameters
     model.fit(X, y)
-
-    # Save the model
     joblib.dump(model, "model.joblib")
+
+    
