@@ -70,17 +70,17 @@ def clean_df(df, background_df=None):
     for col in df.columns:
         if 'partner' in col:
             if pd.api.types.is_numeric_dtype(df[col]):
-                df.loc[:, col].fillna(0, inplace=True)  # Impute numerical "partner" features with 0
+                df.loc[:, col] = df[col].fillna(0)  # Impute numerical "partner" features with 0
             else:
                 df.loc[:, col] = df[col].fillna('Unknown')
 
 
     # Impute missing values (consider alternatives based on data and model)
     for col in df.select_dtypes(include=['float64', 'int64']).columns:
-        df[col].fillna(df[col].mean(), inplace=True)  # Impute numerical features with mean
+        df[col] = df[col].fillna(df[col].mean())  # Impute numerical features with mean
 
     for col in df.select_dtypes(include=['object']).columns:
-        df[col].fillna(df[col].mode()[0], inplace=True)  # Impute categorical features with mode
+        df[col] = df[col].fillna(df[col].mode()[0])  # Impute categorical features with mode
 
     cols_to_keep = fixed_cols + [var + '_' + year for var in all_vars for year in years]
 
