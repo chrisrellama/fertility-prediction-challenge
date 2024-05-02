@@ -54,6 +54,4 @@ def train_save_model(cleaned_df, outcome_df):
 
     # Train the model with the best parameters
     model.fit(X, y)
-
-    # Save the model
     joblib.dump(model, "model.joblib")
