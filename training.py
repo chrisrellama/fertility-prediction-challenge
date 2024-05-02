@@ -32,7 +32,7 @@ def train_save_model(cleaned_df, outcome_df):
 
     from xgboost import XGBClassifier
 
-    Best parameters obtained from grid search
+    # Best parameters obtained from grid search
     best_params = {
         'learning_rate': 0.3,
         'max_depth': 7,
