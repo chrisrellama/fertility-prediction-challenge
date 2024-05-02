@@ -42,13 +42,13 @@ def clean_df(df, background_df=None):
     # df["age"] = 2024 - df["birthyear_bg"]
     df = df.copy()
 
-    with open('settings.json') as f:
-        settings = json.load(f)
+    # with open('settings.json') as f:
+    #     settings = json.load(f)
 
     # Use file paths from settings
-    file_path = settings['file_paths']['index']
+    # file_path = settings['file_paths']['index']
 
-    # file_path = "index.txt"
+    file_path = "index.txt"
 
     # Initialize an empty list to store the feature names
     loaded_feature_names = []
