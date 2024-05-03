@@ -42,7 +42,7 @@ def clean_df(df, background_df=None):
     # df["age"] = 2024 - df["birthyear_bg"]
     df = df.copy()
 
-    df["age"] = 2024 - df["birthyear_bg"]
+    # df["age"] = 2024 - df["birthyear_bg"]
 
     # with open('settings.json') as f:
     #     settings = json.load(f)
@@ -50,9 +50,9 @@ def clean_df(df, background_df=None):
     # Use file paths from settings
     # file_path = settings['file_paths']['index']
 
-    # file_path = "index.txt"
+    file_path = "index.txt"
 
-    file_path = "low_importance_features.txt"
+    # file_path = "low_importance_features.txt"
 
     # Initialize an empty list to store the feature names
     loaded_feature_names = []
