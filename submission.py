@@ -48,9 +48,11 @@ def clean_df(df, background_df=None):
     #     settings = json.load(f)
 
     # Use file paths from settings
-    file_path = settings['file_paths']['index']
+    # file_path = settings['file_paths']['index']
 
     # file_path = "index.txt"
+
+    file_path = "low_importance_features.txt"
 
     # Initialize an empty list to store the feature names
     loaded_feature_names = []
