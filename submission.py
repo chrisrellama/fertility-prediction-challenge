@@ -42,6 +42,8 @@ def clean_df(df, background_df=None):
     # df["age"] = 2024 - df["birthyear_bg"]
     df = df.copy()
 
+    df["age"] = 2024 - df["birthyear_bg"]
+
     # with open('settings.json') as f:
     #     settings = json.load(f)
 
