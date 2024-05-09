@@ -9,3 +9,5 @@ dependencies:
   - matplotlib=3.8.3
   - pip:
       - xgboost==2.0.3
+      - catboost==1.2.5
+      - lightgbm==4.3.0

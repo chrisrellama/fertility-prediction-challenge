@@ -80,7 +80,6 @@ def clean_df(df, background_df=None):
     #         else:
     #             df.loc[:, col] = df[col].fillna('Unknown')
 
-
     # Impute missing values (consider alternatives based on data and model)
     for col in df.select_dtypes(include=['float64', 'int64']).columns:
         df[col] = df[col].fillna(df[col].mean())  # Impute numerical features with mean
@@ -110,7 +109,7 @@ def clean_df(df, background_df=None):
 
     # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
     df = df[loaded_feature_names]
-
+    
     # df = df[cols_to_keep]
 
     return df
@@ -148,8 +147,10 @@ def predict_outcomes(df, background_df=None, model_path="model.joblib"):
     df = clean_df(df, background_df)
 
     # Exclude the variable nomem_encr if this variable is NOT in your model
-    vars_in_model = model.feature_importances_.shape[0]
-    vars_without_id = df.columns[df.columns != 'nomem_encr'][:vars_in_model]
+    # vars_in_model = model.feature_names_in_.shape[0]
+    # vars_without_id = df.columns[df.columns != 'nomem_encr'][:vars_in_model]
+
+    vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
     
     # vars_without_id = df.columns[df.columns != 'nomem_encr']
 

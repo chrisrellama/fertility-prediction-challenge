@@ -8,6 +8,9 @@ It is important to document your training steps here, including seed,
 number of folds, model, et cetera
 """
 from xgboost import XGBClassifier
+from catboost import CatBooostClassifier
+import lightgbm as lgb
+from sklearn.ensemble import VotingClassifier
 # from sklearn.ensemble import RandomForestClassifier
 
 def train_save_model(cleaned_df, outcome_df):
@@ -30,18 +33,20 @@ def train_save_model(cleaned_df, outcome_df):
     
     # Logistic regression model
 
-    from xgboost import XGBClassifier
-
     # Best parameters obtained from grid search
-    best_params = {
-        'learning_rate': 0.3,
-        'max_depth': 7,
-        'min_child_weight': 5,
-        'subsample': 0.9,
-        'n_estimators': 100
-    }
+    # best_params = {
+    #     'learning_rate': 0.3,
+    #     'max_depth': 7,
+    #     'min_child_weight': 5,
+    #     'subsample': 0.9,
+    #     'n_estimators': 100
+    # }
 
-    model = XGBClassifier(**best_params, random_state=1)
+    best_xgb_model = XGBClassifier(random_state=1)
+    best_cat_model = CatBooostClassifier(random_state=1)
+    best_lgb_model = lgb.LGBMClassifier(random_state=1)
+
+    model = VotingClassifier(estimators=[('xgb', best_xgb_model), ('cat', best_cat_model), ('lgb', best_lgb_model)], voting='hard')
 
     # model = RandomForestClassifier(random_state=1)
 
@@ -52,7 +57,6 @@ def train_save_model(cleaned_df, outcome_df):
 
     y = model_df['new_child']
 
-    # Train the model with the best parameters
     model.fit(X, y)
     joblib.dump(model, "model.joblib")
 
