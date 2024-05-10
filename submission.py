@@ -19,7 +19,6 @@ run.py can be used to test your submission.
 import pandas as pd
 # from sklearn.linear_model import LogisticRegression
 import joblib
-import pandas as pd
 from sklearn.model_selection import train_test_split
 import json
 
@@ -110,6 +109,7 @@ def clean_df(df, background_df=None):
     # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
     df = df[loaded_feature_names]
     
+    # df.drop('nomem_encr', axis=1, inplace=True)
     # df = df[cols_to_keep]
 
     return df
@@ -146,16 +146,20 @@ def predict_outcomes(df, background_df=None, model_path="model.joblib"):
     # Preprocess the fake / holdout data
     df = clean_df(df, background_df)
 
+    # df = df[model.feature_names_in_]
+
     # Exclude the variable nomem_encr if this variable is NOT in your model
     # vars_in_model = model.feature_names_in_.shape[0]
     # vars_without_id = df.columns[df.columns != 'nomem_encr'][:vars_in_model]
 
-    vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
+    # vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
     
     # vars_without_id = df.columns[df.columns != 'nomem_encr']
+    vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
+    predictions = model.predict(df[vars_without_id])
 
     # Generate predictions from model, should be 0 (no child) or 1 (had child)
-    predictions = model.predict(df[vars_without_id])
+    # predictions = model.predict(df[vars_without_id])
 
     # Output file should be DataFrame with two columns, nomem_encr and predictions
     df_predict = pd.DataFrame(

@@ -46,6 +46,13 @@ def train_save_model(cleaned_df, outcome_df):
     best_cat_model = CatBooostClassifier(random_state=1)
     best_lgb_model = lgb.LGBMClassifier(random_state=1)
 
+    # X_train = model_df.drop(columns=['new_child'], axis=1)
+    # y_train = model_df['new_child']
+
+    # best_xgb_model.fit(X_train, y_train)
+    # best_cat_model.fit(X_train, y_train)
+    # best_lgb_model.fit(X_train, y_train)
+
     model = VotingClassifier(estimators=[('xgb', best_xgb_model), ('cat', best_cat_model), ('lgb', best_lgb_model)], voting='hard')
 
     # model = RandomForestClassifier(random_state=1)
