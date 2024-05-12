@@ -42,9 +42,33 @@ def train_save_model(cleaned_df, outcome_df):
     #     'n_estimators': 100
     # }
 
-    best_xgb_model = XGBClassifier(random_state=1)
-    best_cat_model = CatBooostClassifier(random_state=1)
-    best_lgb_model = lgb.LGBMClassifier(random_state=1)
+    xgb_best_params = {'booster': 'gbtree',
+                       'lambda': 9.778009956323202e-08,
+                       'alpha': 3.431986541390118e-08,
+                       'n_estimators': 64,
+                       'max_depth': 7,
+                       'learning_rate': 0.042977256477361954,
+                       'gamma': 0.42608626647544,
+                       'colsample_bytree': 0.8616503420589152,
+                       'subsample': 0.5357180066386461}
+
+    cb_best_params = {'objective': 'Logloss',
+                      'colsample_bylevel': 0.08903806045133904,
+                      'depth': 9,
+                      'boosting_type': 'Ordered',
+                      'bootstrap_type': 'MVS'}
+
+    lgb_best_params = {'lambda_l1': 0.001361227520152072,
+                       'lambda_l2': 3.5829946241097575e-06,
+                       'num_leaves': 242,
+                       'feature_fraction': 0.7419538370655974,
+                       'bagging_fraction': 0.6487653994303965,
+                       'bagging_freq': 6,
+                       'min_child_samples': 33}
+
+    best_xgb_model = XGBClassifier(xgb_best_params, random_state=1)
+    best_cat_model = CatBooostClassifier(cb_best_params, random_state=1)
+    best_lgb_model = lgb.LGBMClassifier(lgb_best_params, random_state=1)
 
     # X_train = model_df.drop(columns=['new_child'], axis=1)
     # y_train = model_df['new_child']
@@ -53,7 +77,7 @@ def train_save_model(cleaned_df, outcome_df):
     # best_cat_model.fit(X_train, y_train)
     # best_lgb_model.fit(X_train, y_train)
 
-    model = VotingClassifier(estimators=[('xgb', best_xgb_model), ('cat', best_cat_model), ('lgb', best_lgb_model)], voting='hard')
+    model = VotingClassifier(estimators=[('xgb', best_xgb_model), ('cat', best_cat_model), ('lgb', best_lgb_model)], voting='soft')
 
     # model = RandomForestClassifier(random_state=1)
 
