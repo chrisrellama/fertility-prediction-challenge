@@ -43,28 +43,30 @@ def train_save_model(cleaned_df, outcome_df):
     # }
 
     xgb_best_params = {'booster': 'gbtree',
-                       'lambda': 9.778009956323202e-08,
-                       'alpha': 3.431986541390118e-08,
-                       'n_estimators': 64,
+                       'lambda': 0.00434039625174651,
+                       'alpha': 0.00029313510747824243,
+                       'n_estimators': 161,
                        'max_depth': 7,
-                       'learning_rate': 0.042977256477361954,
-                       'gamma': 0.42608626647544,
-                       'colsample_bytree': 0.8616503420589152,
-                       'subsample': 0.5357180066386461}
+                       'learning_rate': 0.018533335439747604,
+                       'gamma': 0.6347219755334971,
+                       'colsample_bytree': 0.5267376565133665,
+                       'subsample': 0.6764250274627918,
+                       'min_child_weight': 1,
+                       'grow_policy': 'depthwise'}
 
-    cb_best_params = {'objective': 'Logloss',
-                      'colsample_bylevel': 0.08903806045133904,
-                      'depth': 9,
+    cb_best_params = {'objective': 'CrossEntropy',
+                      'colsample_bylevel': 0.012811022397622869,
+                      'depth': 10,
                       'boosting_type': 'Ordered',
                       'bootstrap_type': 'MVS'}
 
-    lgb_best_params = {'lambda_l1': 0.001361227520152072,
-                       'lambda_l2': 3.5829946241097575e-06,
-                       'num_leaves': 242,
-                       'feature_fraction': 0.7419538370655974,
-                       'bagging_fraction': 0.6487653994303965,
-                       'bagging_freq': 6,
-                       'min_child_samples': 33}
+    lgb_best_params = {'lambda_l1': 0.0010324197101867663,
+                       'lambda_l2': 7.69031152321403e-08,
+                       'num_leaves': 199,
+                       'feature_fraction': 0.6367914164169993,
+                       'bagging_fraction': 0.8642109943467728,
+                       'bagging_freq': 1,
+                       'min_child_samples': 7}
 
     best_xgb_model = XGBClassifier(xgb_best_params, random_state=1)
     best_cat_model = CatBooostClassifier(cb_best_params, random_state=1)
