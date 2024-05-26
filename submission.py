@@ -51,8 +51,6 @@ def clean_df(df, background_df=None):
     # Initialize an empty list to store the feature names
     loaded_feature_names = []
 
-    df.drop('outcome_available', axis=1, inplace=True)
-
     # # Open the file in read mode
     with open(file_path, "r") as file:
         for line in file:
@@ -95,6 +93,7 @@ def clean_df(df, background_df=None):
     # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
     
     # df.drop('nomem_encr', axis=1, inplace=True)
+    df.drop('outcome_available', axis=1, inplace=True)
     # df = df[cols_to_keep]
 
     return df
