@@ -8,3 +8,9 @@ Submission 2
 - expanded the model ensemble by incorporating CatBoost and LightGBM alongside XGBoost
 - utilized Optuna for efficient hyperparameter optimization
 - leveraged VotingClassifier to combine the predictions from the three models (XGBoost, CatBoost, LightGBM) using soft voting (majority rule based on predicted probabilities)
+
+Submission 3
+- adopted mode imputation to handle missing values across all data types
+- expanded the model ensemble by incorporating CatBoost,LightGBM, MLPCLassifier and LogisticRegrression alongside XGBoost
+- utilized Optuna and StratifiedKFold for efficient hyperparameter optimization
+- leveraged VotingClassifier to combine the predictions from the five models (XGBoost, CatBoost, LightGBM, MLPClassifier, LogisticRegression) using soft voting (majority rule based on predicted probabilities)

@@ -20,7 +20,17 @@ import pandas as pd
 # from sklearn.linear_model import LogisticRegression
 import joblib
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 import json
+
+def scaler(df):
+
+    scaler = StandardScaler()
+
+    numeric = df.select_dtypes(include=['int', 'float64'])
+    df[numeric.columns] = scaler.fit_transform(numeric)
+
+    return df
 
 
 def clean_df(df, background_df=None):
@@ -46,17 +56,25 @@ def clean_df(df, background_df=None):
     # Use file paths from settings
     # file_path = settings['file_paths']['index']
 
-    file_path = "index.txt"
+    file_path = "index_166.txt"
 
-    # Initialize an empty list to store the feature names
     loaded_feature_names = []
 
-    # # Open the file in read mode
     with open(file_path, "r") as file:
         for line in file:
             loaded_feature_names.append(line.strip())
 
     df = df[loaded_feature_names]
+
+    df['cf17j029'].fillna(1988.0, inplace=True)
+
+    # outliers
+    df['cf20m130'] = df['cf20m130'].replace(2025, 1)
+    df['cs20m172'] = df['cs20m172'].replace(99, 8)
+    df['cs20m169'] = df['cs20m169'].replace(99, 8)
+    df['cs20m165'] = df['cs20m165'].replace(99, 8)
+    df['cs20m500'] = df['cs20m500'].replace(99, 8)
+    df['cs20m182'] = df['cs20m182'].replace(99, 8)
 
     for col in df.select_dtypes(include=['float64', 'int64', 'object']).columns:
         mode_series = df[col].mode(dropna=True)
@@ -72,29 +90,10 @@ def clean_df(df, background_df=None):
                 
         df[col] = df[col].fillna(mode_value)
 
-    # cols_to_keep = []
-    
-    # for col in df.select_dtypes(include=['float64', 'int64']).columns:
-    #     cols_to_keep.append(col)  # Add all float and int columns
-
-    # df.drop(df.columns[~df.columns.isin(cols_to_keep)], axis=1, inplace=True)
-
-    # Selecting variables for modelling
-    # keepcols = [
-    #     "nomem_encr",  # ID variable required for predictions,
-    #     "age"          # newly created variable
-    # ] 
-
-    # Keeping data with variables selected
-    # df = df[keepcols]
-
-    # df.drop('nomem_encr', axis=1, inplace=True)
-
-    # columns_to_keep = [col for col in df.columns if col not in loaded_feature_names]
-    
-    # df.drop('nomem_encr', axis=1, inplace=True)
     df.drop('outcome_available', axis=1, inplace=True)
-    # df = df[cols_to_keep]
+    df.drop('ci20m326', axis=1, inplace=True) # year of birth
+
+    df = scaler(df)
 
     return df
 
