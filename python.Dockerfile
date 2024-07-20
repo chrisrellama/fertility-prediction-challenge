@@ -11,6 +11,7 @@ COPY *.py /app
 COPY *.joblib /app
 COPY index.txt /app
 COPY low_importance_features.txt /app
+COPY index_166.txt /app
 
 ENTRYPOINT ["conda", "run", "-n", "eyra-rank", "python", "/app/run.py"]
 CMD ["predict", "/data/fake_data.csv"]

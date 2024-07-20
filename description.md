@@ -14,3 +14,8 @@ Submission 3
 - expanded the model ensemble by incorporating CatBoost,LightGBM, MLPCLassifier and LogisticRegrression alongside XGBoost
 - utilized Optuna and StratifiedKFold for efficient hyperparameter optimization
 - leveraged VotingClassifier to combine the predictions from the five models (XGBoost, CatBoost, LightGBM, MLPClassifier, LogisticRegression) using soft voting (majority rule based on predicted probabilities)
+
+Submission 3.1
+- found some features to fill nans with specific value isntead of mode value
+- drop some features based on variance inflation factor
+- found that using XGBoost only gives the highest score in train and validation data

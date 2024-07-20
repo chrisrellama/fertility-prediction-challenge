@@ -64,9 +64,11 @@ def clean_df(df, background_df=None):
         for line in file:
             loaded_feature_names.append(line.strip())
 
+    df = df.copy()
+
     df = df[loaded_feature_names]
 
-    df['cf17j029'].fillna(1988.0, inplace=True)
+    df.fillna({'cf17j029': 1988.0}, inplace=True)
 
     # outliers
     df['cf20m130'] = df['cf20m130'].replace(2025, 1)
@@ -75,6 +77,15 @@ def clean_df(df, background_df=None):
     df['cs20m165'] = df['cs20m165'].replace(99, 8)
     df['cs20m500'] = df['cs20m500'].replace(99, 8)
     df['cs20m182'] = df['cs20m182'].replace(99, 8)
+    
+    df.drop('ci20m326', axis=1, inplace=True) 
+    df.drop('brutohh_f_2020', axis=1, inplace=True)
+
+    df.fillna({'cw17j033': 8.0}, inplace=True)
+    df.fillna({'ch19l006': 6.0}, inplace=True)
+    df.fillna({'cv19k230': 5.0}, inplace=True)  
+
+    df.drop('outcome_available', axis=1, inplace=True)
 
     for col in df.select_dtypes(include=['float64', 'int64', 'object']).columns:
         mode_series = df[col].mode(dropna=True)
@@ -89,9 +100,6 @@ def clean_df(df, background_df=None):
                 mode_value = non_na_values.mode()[0]
                 
         df[col] = df[col].fillna(mode_value)
-
-    df.drop('outcome_available', axis=1, inplace=True)
-    df.drop('ci20m326', axis=1, inplace=True) # year of birth
 
     df = scaler(df)
 

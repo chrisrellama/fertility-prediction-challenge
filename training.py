@@ -44,66 +44,65 @@ def train_save_model(cleaned_df, outcome_df):
     #     'n_estimators': 100
     # }
 
-    xgb_best_params = {
-                    'booster': 'gbtree',
-                    'lambda': 5.96444707710219e-05,
-                    'alpha': 2.9751323329475373e-06,
-                    'n_estimators': 170,
-                    'max_depth': 8,
-                    'learning_rate': 0.057472219736592486,
-                    'gamma': 0.45443962305982644,
-                    'colsample_bytree': 0.769938139563005,
-                    'subsample': 0.6138935332424642,
-                    'min_child_weight': 4,
-                    'grow_policy': 'depthwise'}
+    xgb_best_params = {'booster': 'gbtree',
+                       'lambda': 0.003042862463959547,
+                       'alpha': 3.43724714216221e-05,
+                       'n_estimators': 198,
+                       'max_depth': 3,
+                       'learning_rate': 0.0987933568724821,
+                       'gamma': 0.681416464723924,
+                       'colsample_bytree': 0.8126124710682026,
+                       'subsample': 0.5519698755667607,
+                       'min_child_weight': 7,
+                       'grow_policy': 'lossguide'}
 
-    cb_best_params = {
-                    'objective': 'CrossEntropy',
-                    'colsample_bylevel': 0.059026626813230176,
-                    'depth': 3,
-                    'boosting_type': 'Ordered',
-                    'bootstrap_type': 'Bernoulli',
-                    'subsample': 0.2020107281358829}
+    # cb_best_params = {
+    #                 'objective': 'CrossEntropy',
+    #                 'colsample_bylevel': 0.059026626813230176,
+    #                 'depth': 3,
+    #                 'boosting_type': 'Ordered',
+    #                 'bootstrap_type': 'Bernoulli',
+    #                 'subsample': 0.2020107281358829}
 
-    lgb_best_params = {
-                    'lambda_l1': 2.1298482220530595e-05,
-                    'lambda_l2': 0.009111625952785245,
-                    'num_leaves': 219,
-                    'feature_fraction': 0.4945570495621492,
-                    'bagging_fraction': 0.8955785257332284,
-                    'bagging_freq': 4,
-                    'min_child_samples': 39,
-                    'learning_rate': 0.061717313116079406}
+    # lgb_best_params = {
+    #                 'lambda_l1': 2.1298482220530595e-05,
+    #                 'lambda_l2': 0.009111625952785245,
+    #                 'num_leaves': 219,
+    #                 'feature_fraction': 0.4945570495621492,
+    #                 'bagging_fraction': 0.8955785257332284,
+    #                 'bagging_freq': 4,
+    #                 'min_child_samples': 39,
+    #                 'learning_rate': 0.061717313116079406}
     
-    mlp_best_params = {
-                    'hidden_layer_sizes': (100,),
-                    'activation': 'logistic',
-                    'solver': 'sgd',
-                    'alpha': 0.0011580539894207684,
-                    'learning_rate': 'adaptive',
-                    'learning_rate_init': 0.022226270592867074,
-                    'max_iter': 204,
-                    'momentum': 0.17310540168283473,
-                    'nesterovs_momentum': False}
+    # mlp_best_params = {
+    #                 'hidden_layer_sizes': (100,),
+    #                 'activation': 'logistic',
+    #                 'solver': 'sgd',
+    #                 'alpha': 0.0011580539894207684,
+    #                 'learning_rate': 'adaptive',
+    #                 'learning_rate_init': 0.022226270592867074,
+    #                 'max_iter': 204,
+    #                 'momentum': 0.17310540168283473,
+    #                 'nesterovs_momentum': False}
     
-    lr_best_params =  {
-                    'penalty': 'l1',
-                    'C': 0.15023470037831235,
-                    'solver': 'liblinear',
-                    'max_iter': 639}
+    # lr_best_params =  {
+    #                 'penalty': 'l1',
+    #                 'C': 0.15023470037831235,
+    #                 'solver': 'liblinear',
+    #                 'max_iter': 639}
 
-    best_xgb_model = XGBClassifier(xgb_best_params, random_state=1)
-    best_cat_model = CatBooostClassifier(cb_best_params, random_state=1)
-    best_lgb_model = lgb.LGBMClassifier(lgb_best_params, random_state=1)
-    best_mlp_model = MLPClassifier(mlp_best_params, random_state=1)
-    best_lr_model = LogisticRegression(lr_best_params, random_state=1)
+    model = XGBClassifier(xgb_best_params, random_state=1)
+    # best_cat_model = CatBooostClassifier(cb_best_params, random_state=1)
+    # best_lgb_model = lgb.LGBMClassifier(lgb_best_params, random_state=1)
+    # best_mlp_model = MLPClassifier(mlp_best_params, random_state=1)
+    # best_lr_model = LogisticRegression(lr_best_params, random_state=1)
 
-    model = VotingClassifier(estimators=[('xgb', best_xgb_model), 
-                                         ('cat', best_cat_model), 
-                                         ('lgb', best_lgb_model),
-                                         ('mlp', best_mlp_model),
-                                         ('lr', best_lr_model)], 
-                                         voting='soft')
+    # model = VotingClassifier(estimators=[('xgb', best_xgb_model), 
+    #                                      ('cat', best_cat_model), 
+    #                                      ('lgb', best_lgb_model),
+    #                                      ('mlp', best_mlp_model),
+    #                                      ('lr', best_lr_model)], 
+    #                                      voting='soft')
 
     # model = RandomForestClassifier(random_state=1)
 
