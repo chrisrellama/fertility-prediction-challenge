@@ -87,6 +87,13 @@ def clean_df(df, background_df=None):
 
     df.drop('outcome_available', axis=1, inplace=True)
 
+    ave_col = ['ch19l259', 'cs19l439', 'cp17i190', 'cw17j384', 'cv18j303', 'cd20m082', 'cw17j383',
+             'nettoink_2020', 'cf17j397', 'cr18k120', 'ca20g075', 'nettohh_f_2020', 'brutohh_f_2019', 
+             'cv19k302', 'cp18j193', 'cf20m397', 'cs20m415']
+    
+    for col in ave_col:
+        df[col].fillna(df[col].mean(), inplace=True)
+
     for col in df.select_dtypes(include=['float64', 'int64', 'object']).columns:
         mode_series = df[col].mode(dropna=True)
         if not mode_series.empty:

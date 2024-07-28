@@ -44,17 +44,21 @@ def train_save_model(cleaned_df, outcome_df):
     #     'n_estimators': 100
     # }
 
-    xgb_best_params = {'booster': 'gbtree',
-                       'lambda': 0.003042862463959547,
-                       'alpha': 3.43724714216221e-05,
-                       'n_estimators': 198,
-                       'max_depth': 3,
-                       'learning_rate': 0.0987933568724821,
-                       'gamma': 0.681416464723924,
-                       'colsample_bytree': 0.8126124710682026,
-                       'subsample': 0.5519698755667607,
-                       'min_child_weight': 7,
-                       'grow_policy': 'lossguide'}
+    xgb_best_params = {'booster': 'dart', 
+                       'lambda': 9.537613790152782e-05, 
+                       'alpha': 0.029520475365462803, 
+                       'n_estimators': 169, 
+                       'max_depth': 9, 
+                       'learning_rate': 0.1650094305004683, 
+                       'gamma': 0.9801978632408545, 
+                       'colsample_bytree': 0.9114664321483119, 
+                       'subsample': 0.7410766322049791, 
+                       'min_child_weight': 4, 
+                       'grow_policy': 'lossguide', 
+                       'sample_type': 'uniform', 
+                       'normalize_type': 'tree', 
+                       'rate_drop': 2.094963883215845e-06, 
+                       'skip_drop': 1.031056283978034e-05}
 
     # cb_best_params = {
     #                 'objective': 'CrossEntropy',

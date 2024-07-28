@@ -16,6 +16,10 @@ Submission 3
 - leveraged VotingClassifier to combine the predictions from the five models (XGBoost, CatBoost, LightGBM, MLPClassifier, LogisticRegression) using soft voting (majority rule based on predicted probabilities)
 
 Submission 3.1
-- found some features to fill nans with specific value isntead of mode value
+- found some features to fill nans with specific value instead of mode value
 - drop some features based on variance inflation factor
 - found that using XGBoost only gives the highest score in train and validation data
+
+Submission 3.2
+- selected some features to use mean imputation
+- isolated the rows with missing targets, fitted XGBoost to rows with complete targets, used the model to predict the missing targets, and then utilized the entire dataset for Optuna
