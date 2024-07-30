@@ -108,7 +108,13 @@ def clean_df(df, background_df=None):
                 
         df[col] = df[col].fillna(mode_value)
 
-    df = scaler(df)
+    id_column = df['nomem_encr']
+
+    features = df.drop('nomem_encr', axis=1)
+
+    scaled_df = scaler(features)
+
+    df = pd.concat([id_column, scaled_df], axis=1)
 
     return df
 
