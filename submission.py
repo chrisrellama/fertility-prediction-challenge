@@ -159,7 +159,7 @@ def predict_outcomes(df, background_df=None, model_path="model.joblib"):
     # vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
     
     # vars_without_id = df.columns[df.columns != 'nomem_encr']
-    vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
+    vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.get_booster().feature_names]
     predictions = model.predict(df[vars_without_id])
 
     # Generate predictions from model, should be 0 (no child) or 1 (had child)
