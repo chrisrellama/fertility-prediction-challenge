@@ -58,7 +58,7 @@ def clean_df(df, background_df=None):
 
     file_path = "index_166.txt"
 
-    loaded_feature_names = []
+    loaded_feature_names = ['birthyear_bg'] # add birthyear_bg
 
     with open(file_path, "r") as file:
         for line in file:
@@ -68,7 +68,22 @@ def clean_df(df, background_df=None):
 
     df = df[loaded_feature_names]
 
-    df.fillna({'cf17j029': 1988.0}, inplace=True)
+    df['age'] = 2024 - df['birthyear_bg']
+
+    # linear regression
+    df['cf17j005'] = df['cf17j005'].fillna(df['age'] + 1984)
+    df['cf17j009'] = df['cf17j009'].fillna(df['age'] + 1986)
+    df['cf17j029'] = df['cf17j029'].fillna(df['age'] + 2038)
+    df['brutoink_2015'] = df['brutoink_2015'].fillna(df['age'] - 2860)
+    df['cf17j130'] = df['cf17j130'].fillna(df['age'] + 24)
+    df['cf19l031'] = df['cf19l031'].fillna(df['age'] + 2039)
+    df['cf19l130'] = df['cf19l130'].fillna(df['age'] - 22)
+    df['cf20m029'] = df['cf20m029'].fillna(df['age'] + 2040)
+
+    df.drop('age', axis=1, inplace=True)
+    df.drop('birthyear_bg', axis=1, inplace=True)
+
+    # df.fillna({'cf17j029': 1988.0}, inplace=True)
 
     # outliers
     df['cf20m130'] = df['cf20m130'].replace(2025, 1)
@@ -78,18 +93,34 @@ def clean_df(df, background_df=None):
     df['cs20m500'] = df['cs20m500'].replace(99, 8)
     df['cs20m182'] = df['cs20m182'].replace(99, 8)
     
+    # variance inflation factor
     df.drop('ci20m326', axis=1, inplace=True) 
     df.drop('brutohh_f_2020', axis=1, inplace=True)
+    df.drop('cv18j160', axis=1, inplace=True)
+    df.drop('cw17j383', axis=1, inplace=True)
 
-    df.fillna({'cw17j033': 8.0}, inplace=True)
-    df.fillna({'ch19l006': 6.0}, inplace=True)
+    df.fillna({'cw17j033': 2.0}, inplace=True)
+    df.fillna({'ch19l006': 5.0}, inplace=True)
     df.fillna({'cv19k230': 5.0}, inplace=True)  
 
     df.drop('outcome_available', axis=1, inplace=True)
 
-    ave_col = ['ch19l259', 'cs19l439', 'cp17i190', 'cw17j384', 'cv18j303', 'cd20m082', 'cw17j383',
-             'nettoink_2020', 'cf17j397', 'cr18k120', 'ca20g075', 'nettohh_f_2020', 'brutohh_f_2019', 
-             'cv19k302', 'cp18j193', 'cf20m397', 'cs20m415']
+    ave_col = ['ch19l259', 
+               'cs19l439', 
+               'cp17i190', 
+               'cw17j384', 
+               'cv18j303', 
+               'cd20m082', 
+               'nettoink_2020', 
+               'cf17j397', 
+               'cr18k120', 
+               'ca20g075', 
+               'nettohh_f_2020', 
+               'brutohh_f_2019',
+               'cv19k302', 
+               'cp18j193', 
+               'cf20m397', 
+               'cs20m415']
     
     for col in ave_col:
         df[col].fillna(df[col].mean(), inplace=True)
@@ -156,10 +187,10 @@ def predict_outcomes(df, background_df=None, model_path="model.joblib"):
     # vars_in_model = model.feature_names_in_.shape[0]
     # vars_without_id = df.columns[df.columns != 'nomem_encr'][:vars_in_model]
 
-    # vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
+    vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.feature_names_in_]
     
     # vars_without_id = df.columns[df.columns != 'nomem_encr']
-    vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.get_booster().feature_names]
+    # vars_without_id = [col for col in df.columns if col != 'nomem_encr' and col in model.get_booster().feature_names]
     predictions = model.predict(df[vars_without_id])
 
     # Generate predictions from model, should be 0 (no child) or 1 (had child)

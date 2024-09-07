@@ -44,69 +44,37 @@ def train_save_model(cleaned_df, outcome_df):
     #     'n_estimators': 100
     # }
 
-    xgb_best_params = {'booster': 'dart', 
-                       'lambda': 9.537613790152782e-05, 
-                       'alpha': 0.029520475365462803, 
-                       'n_estimators': 169, 
-                       'max_depth': 9, 
-                       'learning_rate': 0.1650094305004683, 
-                       'gamma': 0.9801978632408545, 
-                       'colsample_bytree': 0.9114664321483119, 
-                       'subsample': 0.7410766322049791, 
-                       'min_child_weight': 4, 
-                       'grow_policy': 'lossguide', 
-                       'sample_type': 'uniform', 
-                       'normalize_type': 'tree', 
-                       'rate_drop': 2.094963883215845e-06, 
-                       'skip_drop': 1.031056283978034e-05}
-
-    # cb_best_params = {
-    #                 'objective': 'CrossEntropy',
-    #                 'colsample_bylevel': 0.059026626813230176,
-    #                 'depth': 3,
-    #                 'boosting_type': 'Ordered',
-    #                 'bootstrap_type': 'Bernoulli',
-    #                 'subsample': 0.2020107281358829}
-
-    # lgb_best_params = {
-    #                 'lambda_l1': 2.1298482220530595e-05,
-    #                 'lambda_l2': 0.009111625952785245,
-    #                 'num_leaves': 219,
-    #                 'feature_fraction': 0.4945570495621492,
-    #                 'bagging_fraction': 0.8955785257332284,
-    #                 'bagging_freq': 4,
-    #                 'min_child_samples': 39,
-    #                 'learning_rate': 0.061717313116079406}
+    xgb_best_params = {'booster': 'dart',
+                        'lambda': 0.0002450003592351577,
+                        'alpha': 9.814710792341585e-07,
+                        'n_estimators': 173,
+                        'max_depth': 7,
+                        'learning_rate': 0.048383643801108184,
+                        'gamma': 0.8737083525973144,
+                        'colsample_bytree': 0.5175195766417736,
+                        'subsample': 0.7902267651046265,
+                        'min_child_weight': 4,
+                        'grow_policy': 'depthwise',
+                        'sample_type': 'uniform',
+                        'normalize_type': 'tree',
+                        'rate_drop': 0.009471802325413732,
+                        'skip_drop': 0.004004496225724098}
     
-    # mlp_best_params = {
-    #                 'hidden_layer_sizes': (100,),
-    #                 'activation': 'logistic',
-    #                 'solver': 'sgd',
-    #                 'alpha': 0.0011580539894207684,
-    #                 'learning_rate': 'adaptive',
-    #                 'learning_rate_init': 0.022226270592867074,
-    #                 'max_iter': 204,
-    #                 'momentum': 0.17310540168283473,
-    #                 'nesterovs_momentum': False}
-    
-    # lr_best_params =  {
-    #                 'penalty': 'l1',
-    #                 'C': 0.15023470037831235,
-    #                 'solver': 'liblinear',
-    #                 'max_iter': 639}
+    lgb_best_params = {'lambda_l1': 0.10711895367497702,
+                        'lambda_l2': 5.991056048374842e-05,
+                        'num_leaves': 237,
+                        'feature_fraction': 0.8514738846025549,
+                        'bagging_fraction': 0.7924121221778662,
+                        'bagging_freq': 7,
+                        'min_child_samples': 67,
+                        'learning_rate': 0.09898408693688884}
 
-    model = XGBClassifier(xgb_best_params, random_state=1)
-    # best_cat_model = CatBooostClassifier(cb_best_params, random_state=1)
-    # best_lgb_model = lgb.LGBMClassifier(lgb_best_params, random_state=1)
-    # best_mlp_model = MLPClassifier(mlp_best_params, random_state=1)
-    # best_lr_model = LogisticRegression(lr_best_params, random_state=1)
+    best_xgb_model = XGBClassifier(**xgb_best_params, random_state=1)
+    best_lgb_model = lgb.LGBMClassifier(**lgb_best_params, random_state=1, verbose=-1)
 
-    # model = VotingClassifier(estimators=[('xgb', best_xgb_model), 
-    #                                      ('cat', best_cat_model), 
-    #                                      ('lgb', best_lgb_model),
-    #                                      ('mlp', best_mlp_model),
-    #                                      ('lr', best_lr_model)], 
-    #                                      voting='soft')
+    model = VotingClassifier(estimators=[('xgb', best_xgb_model),  
+                                         ('lgb', best_lgb_model)], 
+                                         voting='soft')
 
     # model = RandomForestClassifier(random_state=1)
 
