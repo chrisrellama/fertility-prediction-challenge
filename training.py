@@ -44,35 +44,39 @@ def train_save_model(cleaned_df, outcome_df):
     #     'n_estimators': 100
     # }
 
-    xgb_best_params = {'booster': 'dart',
-                        'lambda': 0.0002450003592351577,
-                        'alpha': 9.814710792341585e-07,
-                        'n_estimators': 173,
+    xgb_best_params = {'booster': 'gbtree',
+                        'lambda': 0.25403323366892516,
+                        'alpha': 5.9851374260924525e-05,
+                        'n_estimators': 117,
                         'max_depth': 7,
-                        'learning_rate': 0.048383643801108184,
-                        'gamma': 0.8737083525973144,
-                        'colsample_bytree': 0.5175195766417736,
-                        'subsample': 0.7902267651046265,
-                        'min_child_weight': 4,
-                        'grow_policy': 'depthwise',
-                        'sample_type': 'uniform',
-                        'normalize_type': 'tree',
-                        'rate_drop': 0.009471802325413732,
-                        'skip_drop': 0.004004496225724098}
+                        'learning_rate': 0.07172736686641923,
+                        'gamma': 0.035832922662134614,
+                        'colsample_bytree': 0.702966330702086,
+                        'subsample': 0.7942272197561732,
+                        'min_child_weight': 5,
+                        'grow_policy': 'lossguide'}
+
+    cat_best_params = {'objective': 'CrossEntropy',
+                        'colsample_bylevel': 0.055407633055084025,
+                        'depth': 2,
+                        'boosting_type': 'Plain',
+                        'bootstrap_type': 'MVS'}
     
-    lgb_best_params = {'lambda_l1': 0.10711895367497702,
-                        'lambda_l2': 5.991056048374842e-05,
-                        'num_leaves': 237,
-                        'feature_fraction': 0.8514738846025549,
-                        'bagging_fraction': 0.7924121221778662,
-                        'bagging_freq': 7,
-                        'min_child_samples': 67,
-                        'learning_rate': 0.09898408693688884}
+    lgb_best_params = {'lambda_l1': 0.022519482464091294,
+                        'lambda_l2': 1.7855738045848233e-05,
+                        'num_leaves': 82,
+                        'feature_fraction': 0.7419316873030533,
+                        'bagging_fraction': 0.9826701473496973,
+                        'bagging_freq': 6,
+                        'min_child_samples': 39,
+                        'learning_rate': 0.06273800912224269}
 
     best_xgb_model = XGBClassifier(**xgb_best_params, random_state=1)
+    best_cat_model = CatBoostClassifier(**cat_best_params, random_state=1, verbose=0)
     best_lgb_model = lgb.LGBMClassifier(**lgb_best_params, random_state=1, verbose=-1)
 
-    model = VotingClassifier(estimators=[('xgb', best_xgb_model),  
+    model = VotingClassifier(estimators=[('xgb', best_xgb_model),
+                                         ('cat', best_cat_model),  
                                          ('lgb', best_lgb_model)], 
                                          voting='soft')
 

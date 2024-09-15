@@ -22,6 +22,7 @@ import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import json
+import numpy as np
 
 def scaler(df):
 
@@ -71,14 +72,14 @@ def clean_df(df, background_df=None):
     df['age'] = 2024 - df['birthyear_bg']
 
     # linear regression
-    df['cf17j005'] = df['cf17j005'].fillna(df['age'] + 1984)
-    df['cf17j009'] = df['cf17j009'].fillna(df['age'] + 1986)
-    df['cf17j029'] = df['cf17j029'].fillna(df['age'] + 2038)
-    df['brutoink_2015'] = df['brutoink_2015'].fillna(df['age'] - 2860)
-    df['cf17j130'] = df['cf17j130'].fillna(df['age'] + 24)
-    df['cf19l031'] = df['cf19l031'].fillna(df['age'] + 2039)
-    df['cf19l130'] = df['cf19l130'].fillna(df['age'] - 22)
-    df['cf20m029'] = df['cf20m029'].fillna(df['age'] + 2040)
+    df['cf17j005'] = df['cf17j005'].fillna(np.round(df['age']*-0.78 + 1984.31))
+    df['cf17j009'] = df['cf17j009'].fillna(np.round(df['age']*-0.77 + 1986.19))
+    df['cf17j029'] = df['cf17j029'].fillna(np.round(df['age']*-0.72 + 2038))
+    df['brutoink_2015'] = df['brutoink_2015'].fillna(np.round(df['age']*121.53 - 2860))
+    df['cf17j130'] = df['cf17j130'].fillna(np.round(df['age']*-0.55 + 23.85))
+    df['cf19l031'] = df['cf19l031'].fillna(np.round(df['age']*-0.68 + 2039.45))
+    df['cf19l130'] = df['cf19l130'].fillna(np.round(df['age']*-0.51 - 21.70))
+    df['cf20m029'] = df['cf20m029'].fillna(np.round(df['age']*-0.71 + 2039.56))
 
     df.drop('age', axis=1, inplace=True)
     df.drop('birthyear_bg', axis=1, inplace=True)
@@ -94,36 +95,42 @@ def clean_df(df, background_df=None):
     df['cs20m182'] = df['cs20m182'].replace(99, 8)
     
     # variance inflation factor
-    df.drop('ci20m326', axis=1, inplace=True) 
+    df.drop('ci20m326', axis=1, inplace=True) # year of birth
     df.drop('brutohh_f_2020', axis=1, inplace=True)
     df.drop('cv18j160', axis=1, inplace=True)
     df.drop('cw17j383', axis=1, inplace=True)
+    df.drop('cf17j029', axis=1, inplace=True)
+    df.drop('cf19l031', axis=1, inplace=True)
+    df.drop('cf20m029', axis=1, inplace=True)
+    df.drop('cf17j009', axis=1, inplace=True)
 
-    df.fillna({'cw17j033': 2.0}, inplace=True)
-    df.fillna({'ch19l006': 5.0}, inplace=True)
-    df.fillna({'cv19k230': 5.0}, inplace=True)  
+    # df.fillna({'cw17j033': 2.0}, inplace=True)
+    # df.fillna({'ch19l006': 5.0}, inplace=True)
+    # df.fillna({'cv19k230': 5.0}, inplace=True)  
 
     df.drop('outcome_available', axis=1, inplace=True)
 
     ave_col = ['ch19l259', 
-               'cs19l439', 
-               'cp17i190', 
-               'cw17j384', 
-               'cv18j303', 
-               'cd20m082', 
-               'nettoink_2020', 
-               'cf17j397', 
-               'cr18k120', 
-               'ca20g075', 
-               'nettohh_f_2020', 
-               'brutohh_f_2019',
-               'cv19k302', 
-               'cp18j193', 
-               'cf20m397', 
-               'cs20m415']
+                'cs19l439', 
+                'cp17i190', 
+                'cw17j384', 
+                'cv18j303', 
+                'cd20m082',
+                'cf17j397', 
+                'cr18k120', 
+                'ca20g075', 
+                'cv19k302', 
+                'cp18j193', 
+                'cf20m397', 
+                'cs20m415']
     
     for col in ave_col:
         df[col].fillna(df[col].mean(), inplace=True)
+
+    median_col = ['nettoink_2020', 'nettohh_f_2020', 'brutohh_f_2019']
+
+    for col in median_col:
+        df[col].fillna(df[col].median(), inplace=True)
 
     for col in df.select_dtypes(include=['float64', 'int64', 'object']).columns:
         mode_series = df[col].mode(dropna=True)
