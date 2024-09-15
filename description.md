@@ -23,12 +23,3 @@ Submission 3.1
 Submission 3.2
 - selected some features to use mean imputation
 - isolated the rows with missing targets, fitted XGBoost to rows with complete targets, used the model to predict the missing targets, and then utilized the entire dataset for Optuna
-
-Submission 4
-- plotted some features against 'age', noticed linearity, used linear regression then used the intercept and 'age' to fill nans
-- dropped some features that scored high in variance inflation factor
-- found that ensemble of XGBoost and LightGBM scored best in cross-validation
-- utilized Optuna and StratifiedKFold for efficient hyperparameter optimization
-
-Submission 4.1
-- used more random seeds then select the ensemble with the highest mean of scores and least standard deviation
